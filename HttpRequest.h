@@ -14,16 +14,15 @@ private:
     string protocol;
     string protocol_version;
     string url;
-    string server_name;
+
 
 public:
-    explicit HttpRequest(string req);
-
-
     string set_method();
     string set_url();
     string set_protocol();
     string set_protocol_version();
+    void set_all(string req);
+    void clear_all();
 };
 
 #endif //IPK_PROJ1CPP_HTTPREQUEST_H

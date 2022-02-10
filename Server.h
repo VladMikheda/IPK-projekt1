@@ -6,21 +6,16 @@
 #include <fstream>
 #include "Controller.h"
 using namespace std;
-const int BUFFER_SIZE = 256;
-//const string NEW_NEXT_LINE = "\r\n\r\n";
-
 
 class Server{
 private:
+    enum{ BUFFER_SIZE = 256};
     int port;
     string req_str;
     Tcp server;
 
-    //TODO хз надо ли добавить проверкук на 2 переноса строки
-
 public:
     explicit Server(int p);
-
 
     void server_start();
 };

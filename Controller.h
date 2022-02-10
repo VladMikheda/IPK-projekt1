@@ -6,46 +6,26 @@
 #include <fstream>
 #include "HttpRequest.h"
 #include "HTTPResponse.h"
-#include "CPULoad.h"
-
-const string HOSTNAME = "/hostname";
-const string CPUNAME = "/cpu-name";
-const string LOAD = "/load";
-const int METHOD_NUMBER = 6;
-const string METHOD[METHOD_NUMBER] ={
-        "POST",
-        "PUT",
-        "DELETE",
-        "PATH",
-        "OPTIONS",
-        "CONNECT"
-};
+#include "ServerInfo.h"
 
 
 class Controller{
 private:
-    string page;
-    HTTPResponse response;
 
-    void page_hostname(HttpRequest request);
+    enum{METHOD_NUMBER = 6};
+    string METHOD[METHOD_NUMBER];
 
-    void page_cpuname(HttpRequest request);
-
-    void page_load(HttpRequest request);
-
-    void page_notfound();
-
-    void method_not_valid(HttpRequest request);
-    void method_not_allowed(HttpRequest request);
-
-    void not_content();
+    HTTPResponse page_hostname(HttpRequest& request, HTTPResponse& response);
+    HTTPResponse page_cpuname(HttpRequest& request, HTTPResponse& response);
+    HTTPResponse page_load(HttpRequest& request, HTTPResponse& response);
+    HTTPResponse page_notfound(HTTPResponse& response);
+    HTTPResponse method_not_valid(HTTPResponse& response);
+    HTTPResponse method_not_allowed(HTTPResponse& response);
+    HTTPResponse not_content(HTTPResponse& response);
 
 public:
-    HTTPResponse set_response();
-
-
-public:
-    Controller(HttpRequest& request);
+    Controller();
+    HTTPResponse selection(HttpRequest request);
 
 
 };

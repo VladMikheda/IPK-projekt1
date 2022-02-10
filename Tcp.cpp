@@ -30,8 +30,9 @@ void Tcp::Socket(){
         exit(ERROR_CREATE_SOCET);
     }
     int a = 1;
-    if(0 > setsockopt(server, SOL_SOCKET, SO_REUSEADDR,&a, sizeof(int)))
+    if(0 > setsockopt(server, SOL_SOCKET, SO_REUSEADDR,&a, sizeof(int))){
         exit(ERROR_SETSOCKETOPT);
+    }
 }
 
 void Tcp::Bind(){

@@ -1,12 +1,14 @@
-#ifndef IPK_PROJ1CPP_CPULOAD_H
-#define IPK_PROJ1CPP_CPULOAD_H
+#ifndef IPK_PROJ1CPP_SERVERINFO_H
+#define IPK_PROJ1CPP_SERVERINFO_H
 #include <iostream>
 using namespace std;
 
 
 
-class CPU_Load{
+class ServerInfo{
 private:
+    string file_proc_stat;
+
     unsigned long pos_first_sub;
     unsigned long pos_second_sub;
     unsigned long pos_third_sub;
@@ -45,14 +47,17 @@ private:
 
     void set_load();
     void set_prev_load();
+    void position_setting();
 
 public:
-    CPU_Load();
+    ServerInfo();
     string get_cpu_load();
+    string static get_cpu_name();
+    string static get_host_name();
 
 
 
 };
 
 
-#endif //IPK_PROJ1CPP_CPULOAD_H
+#endif //IPK_PROJ1CPP_SERVERINFO_H

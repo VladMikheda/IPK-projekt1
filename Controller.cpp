@@ -2,126 +2,119 @@
 
 
 
- void Controller::page_hostname(HttpRequest request){
+ HTTPResponse Controller::page_hostname(HttpRequest& request, HTTPResponse& response){
     response.set_code("200");
     response.set_status("OK");
-    response.set_server_name("localhost"); //todo
     response.set_content_type("text/plain");
     response.set_connection("Close");
 
     if(request.set_method() == "GET"){
-        int max_len_hostname = 255;
-        char hostname[max_len_hostname];
-        gethostname(hostname,max_len_hostname);
-        response.set_body(hostname);
+        response.set_body(ServerInfo::get_host_name());
     }
     response.create_resp_mess();
+    return response;
 }
 
- void Controller::page_cpuname(HttpRequest request){
+ HTTPResponse Controller::page_cpuname(HttpRequest& request, HTTPResponse& response){
      response.set_code("200");
      response.set_status("OK");
-     response.set_server_name("localhost"); //todo
      response.set_content_type("text/plain");
      response.set_connection("Close");
 
      if(request.set_method() == "GET"){
-         string cpu_info;
-         ifstream in("/proc/cpuinfo"); //todo
-
-         while (getline(in,cpu_info)){
-             if(-1 != cpu_info.find("model name")){
-                 break;
-             }
-         }
-         int pos_start = (int)cpu_info.find(':') + 2;
-         int len_cpu_name =(int) (cpu_info.find('\n') - (cpu_info.find(':') + 1));
-         cpu_info = cpu_info.substr(pos_start,len_cpu_name);
-         response.set_body(cpu_info);
+         response.set_body(ServerInfo::get_cpu_name());
      }
      response.create_resp_mess();
+     return response;
 }
 
- void Controller::page_load(HttpRequest request){
+ HTTPResponse Controller::page_load(HttpRequest& request, HTTPResponse& response){
      response.set_code("200");
      response.set_status("OK");
-     response.set_server_name("localhost"); //todo
      response.set_content_type("text/plain");
      response.set_connection("Close");
 
      if(request.set_method() == "GET"){
-         CPU_Load cpuLoad;
+         ServerInfo cpuLoad;
          response.set_body(cpuLoad.get_cpu_load());
      }
      response.create_resp_mess();
-}
-
-
-void Controller::not_content(){
-    response.set_code("204");
-    response.set_status("No content");
-    response.set_server_name("localhost"); //todo
-    response.set_connection("Close");
-    response.create_resp_mess();
-}
-
-//
- void Controller::page_notfound(){
-    response.set_code("404");
-    response.set_status("Not Found");
-    response.set_server_name("localhost"); //todo
-    response.set_connection("Close");
-    response.create_resp_mess();
-}
-
- void Controller::method_not_valid(HttpRequest request){
-     response.set_code("400");
-     response.set_status("Bad Request");
-     response.set_server_name("localhost"); //todo
-     response.set_connection("Close");
-     response.create_resp_mess();
-}
-
- void Controller::method_not_allowed(HttpRequest request){
-     response.set_code("405");
-     response.set_status("Method Not Allowed");
-     response.set_server_name("localhost"); //todo
-     response.set_connection("Close");
-     response.create_resp_mess();
-}
-
- HTTPResponse Controller::set_response(){
      return response;
 }
 
 
- Controller::Controller(HttpRequest& request){
+ HTTPResponse Controller::not_content(HTTPResponse& response){
+    response.set_code("204");
+    response.set_status("No content");
+    response.set_connection("Close");
+    response.create_resp_mess();
+    return response;
+}
+
+
+ HTTPResponse Controller::page_notfound(HTTPResponse& response){
+    response.set_code("404");
+    response.set_status("Not Found");
+    response.set_connection("Close");
+    response.create_resp_mess();
+    return response;
+}
+
+ HTTPResponse Controller::method_not_valid(HTTPResponse& response){
+     response.set_code("400");
+     response.set_status("Bad Request");
+     response.set_connection("Close");
+     response.create_resp_mess();
+     return response;
+}
+
+ HTTPResponse Controller::method_not_allowed(HTTPResponse& response){
+     response.set_code("405");
+     response.set_status("Method Not Allowed");
+     response.set_connection("Close");
+     response.create_resp_mess();
+     return response;
+
+}
+
+ Controller::Controller(){
+    METHOD[0] = "POST";
+    METHOD[1] = "PUT";
+    METHOD[2] = "DELETE";
+    METHOD[3] = "PATH";
+    METHOD[4] = "OPTIONS";
+    METHOD[5] = "CONNECT";
+}
+ HTTPResponse Controller::selection(HttpRequest request){
+    HTTPResponse response;
 
     for(int i = 0; i < METHOD_NUMBER; i++){
         if(request.set_method() == METHOD[i]){
-            method_not_allowed(request);
-            return;
+            return method_not_allowed(response);
         }
     }
 
     if(!(request.set_method() == "GET" || request.set_method() == "HEAD")){
-        method_not_valid(request);
-        return;
+        return method_not_valid(response);;
     }
 
-    if(request.set_url() == HOSTNAME){
-        page_hostname(request);
+
+    if(request.set_url() == "/hostname"){
+        return page_hostname(request,response);
     }
-    else if(request.set_url() == CPUNAME){
-        page_cpuname(request);
+    else if(request.set_url() == "/cpu-name"){
+        return page_cpuname(request,response);
     }
     else if(request.set_url() == "/favicon.ico"){
-        not_content();
+        return not_content(response);
     }
-    else if(request.set_url() == LOAD)
-      page_load(request);
+    else if(request.set_url() == "/load")
+        return page_load(request,response);
     else
-      page_notfound();
+        return page_notfound(response);
+
 }
+
+
 
 
