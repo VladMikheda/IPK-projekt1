@@ -9,4 +9,4 @@ Pro spusteni projektu je nutne zadat do prikazove radke "./hinfosvc <port>"
 port je nutnym argumentem prospusteni muze prijiat hodnoty od 1 do 65535.
 
 Kdyz server je spusten pro komunicace s nim lze vyuzit prohlížeč nebo konsolne aplicace 
-дописать команды и смпособ удития 
+дописать команды и смпособ ужития 
