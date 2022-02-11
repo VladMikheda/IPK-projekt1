@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include "Tcp.h"
 
 
@@ -37,6 +38,7 @@ void Tcp::Socket(){
 
 void Tcp::Bind(){
     if(bind(server,(const struct sockaddr *) &addr,sizeof(addr)) == -1){
+        close(server);//?
         std::cerr << "ERROR: the socket was not bound" << std::endl;
         exit(ERROR_BIND);
     }
@@ -44,6 +46,7 @@ void Tcp::Bind(){
 
 void Tcp::Listen() const{
     if(listen(server,SOMAXCONN) == -1){
+        close(server);//?
         std::cerr << "ERROR: listening error" << std::endl;
         exit(ERROR_LISTEN);
     }
@@ -52,6 +55,7 @@ int Tcp::Accept() const{
     int socket_desk = accept(server, nullptr, nullptr);
     if(socket_desk == -1){
         std::cerr << "ERROR: accept error" << std::endl;
+        close(server);//?
         exit(ERROR_ACCEPT);
     }
     return socket_desk;
