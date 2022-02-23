@@ -1,3 +1,12 @@
+/**
+ * Project: Vytvoření serveru komunikujícího prostřednictvím protokolu HTTP
+ *
+ * File:     HTTPRequest.h
+ * Subject:  IPK 2022
+ *
+ * @author:  Vladislav Mikheda  xmikhe00
+ */
+
 #ifndef IPK_PROJ1CPP_HTTPREQUEST_H
 #define IPK_PROJ1CPP_HTTPREQUEST_H
 #include <iostream>
@@ -17,10 +26,10 @@ private:
 
 
 public:
-    string set_method();
-    string set_url();
-    string set_protocol();
-    string set_protocol_version();
+    string get_method();
+    string get_url();
+    string get_protocol();
+    string get_protocol_version();
     void set_all(string req);
     void clear_all();
 };

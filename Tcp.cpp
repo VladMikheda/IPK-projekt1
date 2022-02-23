@@ -1,6 +1,20 @@
+/**
+ * Project: Vytvoření serveru komunikujícího prostřednictvím protokolu HTTP
+ *
+ * File:     Tcp.cpp
+ * Subject:  IPK 2022
+ *
+ * @author:  Vladislav Mikheda  xmikhe00
+ */
+
+
+
+/**
+ * sketch library socket.h
+ */
+
 #include <unistd.h>
 #include "Tcp.h"
-
 
 void Tcp::set_port(int value){
     port = value;
@@ -26,7 +40,7 @@ void Tcp::set_sin_addr(int family, int sin_addr){
 
 void Tcp::Socket(){
     server = socket(domian,type,0);
-    if(server == -1){
+    if(server < 0){
         std::cerr << "ERROR: socket not create" << std::endl;
         exit(ERROR_CREATE_SOCET);
     }
@@ -37,15 +51,15 @@ void Tcp::Socket(){
 }
 
 void Tcp::Bind(){
-    if(bind(server,(const struct sockaddr *) &addr,sizeof(addr)) == -1){
-        close(server);//?
+    if(bind(server,(const struct sockaddr *) &addr,sizeof(addr)) < 0){
+        close(server);
         std::cerr << "ERROR: the socket was not bound" << std::endl;
         exit(ERROR_BIND);
     }
 }
 
 void Tcp::Listen() const{
-    if(listen(server,SOMAXCONN) == -1){
+    if(listen(server,SOMAXCONN) < 0){
         close(server);//?
         std::cerr << "ERROR: listening error" << std::endl;
         exit(ERROR_LISTEN);
@@ -53,9 +67,9 @@ void Tcp::Listen() const{
 }
 int Tcp::Accept() const{
     int socket_desk = accept(server, nullptr, nullptr);
-    if(socket_desk == -1){
+    if(socket_desk < 0){
         std::cerr << "ERROR: accept error" << std::endl;
-        close(server);//?
+        close(server);
         exit(ERROR_ACCEPT);
     }
     return socket_desk;

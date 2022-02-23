@@ -1,3 +1,12 @@
+/**
+ * Project: Vytvoření serveru komunikujícího prostřednictvím protokolu HTTP
+ *
+ * File:     Controller.h
+ * Subject:  IPK 2022
+ *
+ * @author:  Vladislav Mikheda  xmikhe00
+ */
+
 #ifndef IPK_PROJ1CPP_CONTROLER_H
 #define IPK_PROJ1CPP_CONTROLER_H
 
@@ -22,6 +31,7 @@ private:
     HTTPResponse method_not_valid(HTTPResponse& response);
     HTTPResponse method_not_allowed(HTTPResponse& response);
     HTTPResponse not_content(HTTPResponse& response);
+    HTTPResponse conflict(HTTPResponse& response);
 
 public:
     Controller();

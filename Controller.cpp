@@ -1,3 +1,12 @@
+/**
+ * Project: Vytvoření serveru komunikujícího prostřednictvím protokolu HTTP
+ *
+ * File:     Controller.cpp
+ * Subject:  IPK 2022
+ *
+ * @author:  Vladislav Mikheda  xmikhe00
+ */
+
 #include "Controller.h"
 
 
@@ -5,10 +14,10 @@
  HTTPResponse Controller::page_hostname(HttpRequest& request, HTTPResponse& response){
     response.set_code("200");
     response.set_status("OK");
-    response.set_content_type("text/plain");
+    response.set_content_type("text/plain; charset=UTF-8");
     response.set_connection("Close");
 
-    if(request.set_method() == "GET"){
+    if(request.get_method() == "GET"){
         response.set_body(ServerInfo::get_host_name());
     }
     response.create_resp_mess();
@@ -18,10 +27,10 @@
  HTTPResponse Controller::page_cpuname(HttpRequest& request, HTTPResponse& response){
      response.set_code("200");
      response.set_status("OK");
-     response.set_content_type("text/plain");
+     response.set_content_type("text/plain; charset=UTF-8");
      response.set_connection("Close");
 
-     if(request.set_method() == "GET"){
+     if(request.get_method() == "GET"){
          response.set_body(ServerInfo::get_cpu_name());
      }
      response.create_resp_mess();
@@ -31,10 +40,10 @@
  HTTPResponse Controller::page_load(HttpRequest& request, HTTPResponse& response){
      response.set_code("200");
      response.set_status("OK");
-     response.set_content_type("text/plain");
+     response.set_content_type("text/plain; charset=UTF-8");
      response.set_connection("Close");
 
-     if(request.set_method() == "GET"){
+     if(request.get_method() == "GET"){
          ServerInfo cpuLoad;
          response.set_body(cpuLoad.get_cpu_load());
      }
@@ -76,6 +85,14 @@
      return response;
 
 }
+HTTPResponse Controller::conflict(HTTPResponse& response){
+    response.set_code("409");
+    response.set_status("Conflict");
+    response.set_connection("Close");
+    response.create_resp_mess();
+    return response;
+}
+
 
  Controller::Controller(){
     METHOD[0] = "POST";
@@ -85,30 +102,40 @@
     METHOD[4] = "OPTIONS";
     METHOD[5] = "CONNECT";
 }
+
+/** selecting a response by method and url */
  HTTPResponse Controller::selection(HttpRequest request){
     HTTPResponse response;
 
+    if(request.get_protocol() != "HTTP" && request.get_protocol() != "HTTPS"){
+        return conflict(response);
+    }
+
+    //check method
+    //server supports methods: GET and HEAD
+    //if method not found return 400
     for(int i = 0; i < METHOD_NUMBER; i++){
-        if(request.set_method() == METHOD[i]){
+        if(request.get_method() == METHOD[i]){
             return method_not_allowed(response);
         }
     }
 
-    if(!(request.set_method() == "GET" || request.set_method() == "HEAD")){
+    if(!(request.get_method() == "GET" || request.get_method() == "HEAD")){
         return method_not_valid(response);;
     }
 
-
-    if(request.set_url() == "/hostname"){
+    //server by url will return a response
+    // if the url is not found will return 404
+    if(request.get_url() == "/hostname"){
         return page_hostname(request,response);
     }
-    else if(request.set_url() == "/cpu-name"){
+    else if(request.get_url() == "/cpu-name"){
         return page_cpuname(request,response);
     }
-    else if(request.set_url() == "/favicon.ico"){
+    else if(request.get_url() == "/favicon.ico"){
         return not_content(response);
     }
-    else if(request.set_url() == "/load")
+    else if(request.get_url() == "/load")
         return page_load(request,response);
     else
         return page_notfound(response);

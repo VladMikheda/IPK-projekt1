@@ -1,8 +1,18 @@
+/**
+ * Project: Vytvoření serveru komunikujícího prostřednictvím protokolu HTTP
+ *
+ * File:     ServerInfo.cpp
+ * Subject:  IPK 2022
+ *
+ * @author:  Vladislav Mikheda  xmikhe00
+ */
+
 #include "ServerInfo.h"
 #include <unistd.h>
 #include <fstream>
 using namespace std;
 
+/** sets the positions for the split line that will be needed to get the CPU load */
  void ServerInfo::position_setting(){
      ifstream in(file_proc_stat);
      string cpu_info;
@@ -27,7 +37,7 @@ using namespace std;
      len_steal  = pos_ninth_sub - (pos_eighth_sub + 1);
  }
 
-
+/** sets the load on the cpu, first request */
 void ServerInfo::set_load(){
      ifstream in(file_proc_stat);
      string cpu_info;
@@ -42,6 +52,7 @@ void ServerInfo::set_load(){
      steal = cpu_info.substr(pos_eighth_sub+1, len_steal);
 }
 
+/** sets the load on the cpu, second request */
  void ServerInfo::set_prev_load(){
      ifstream in(file_proc_stat);
      string cpu_info;
@@ -61,6 +72,7 @@ ServerInfo::ServerInfo(){
      file_proc_stat = "/proc/stat";
 }
 
+/** finds and returns the CPU name */
 string ServerInfo::get_cpu_name(){
 
     string cpu_info;
@@ -71,12 +83,14 @@ string ServerInfo::get_cpu_name(){
             break;
         }
     }
-    int pos_start = (int)cpu_info.find(':') + 2;
+    int spase = 2;
+    int pos_start = (int)cpu_info.find(':') + spase;
     int len_cpu_name =(int) (cpu_info.find('\n') - (cpu_info.find(':') + 1));
 
     return cpu_info.substr(pos_start,len_cpu_name);
  }
 
+ //return host name
  string ServerInfo::get_host_name(){
      int max_len_hostname = 255;
      char hostname[max_len_hostname];
@@ -84,7 +98,10 @@ string ServerInfo::get_cpu_name(){
      return (string) hostname;
  }
 
-
+/**
+ * find cpu load in /proc/stat by algorithm
+ * return cpu load
+ */
  string ServerInfo::get_cpu_load(){
 
      position_setting();

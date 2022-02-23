@@ -1,6 +1,20 @@
+/**
+ * Project: Vytvoření serveru komunikujícího prostřednictvím protokolu HTTP
+ *
+ * File:     HTTPRequest.h
+ * Subject:  IPK 2022
+ *
+ * @author:  Vladislav Mikheda  xmikhe00
+ */
+
 #include "HttpRequest.h"
 
-
+/**
+ * parse the request to:
+ *      method,
+ *      url,
+ *      protocol
+ */
  void HttpRequest::set_all(string req){
      req_mess = req;
 
@@ -22,16 +36,16 @@
      protocol = line.substr(pos_sec_sub + 1, len_to_sec_slash);
      protocol_version = line.substr(pos_sec_slash + 1, pos_first_lb);
 }
- string HttpRequest::set_method(){
+ string HttpRequest::get_method(){
     return method;
 }
- string HttpRequest::set_url(){
+ string HttpRequest::get_url(){
     return url;
 }
- string HttpRequest::set_protocol(){
+ string HttpRequest::get_protocol(){
     return protocol;
 }
- string HttpRequest::set_protocol_version(){
+ string HttpRequest::get_protocol_version(){
     return protocol_version;
 }
 void HttpRequest::clear_all(){

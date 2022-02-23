@@ -1,3 +1,12 @@
+/**
+ * Project: Vytvoření serveru komunikujícího prostřednictvím protokolu HTTP
+ *
+ * File:     Server.cpp
+ * Subject:  IPK 2022
+ *
+ * @author:  Vladislav Mikheda  xmikhe00
+ */
+
 #include "Server.h"
 
 
@@ -5,7 +14,13 @@
     port = p;
 }
 
-
+/**
+ * server start
+ * open socket
+ * create server socket
+ * bind the socket to our specified IP and port
+ * listening
+ */
  void Server::server_start(){
     server.set_port(port);
     server.set_domian(AF_INET);
@@ -20,10 +35,10 @@
     char buffer[BUFFER_SIZE] = {0};
     int socket_desk;
 
-
-    while(1){
+    //server main loop
+    while(true){
         socket_desk = server.Accept();
-        while(1){
+        while(true){ //request read loop
             memset(buffer,'\0', sizeof(buffer));
             int buffer_real_size = (int) read(socket_desk, buffer, BUFFER_SIZE-1);
             buffer[buffer_real_size++] = '\0';
@@ -38,8 +53,10 @@
 
         string response_str = controller.selection(request).get_resp_mess();
 
+        //write response
         write(socket_desk,response_str.data(),response_str.size());
         close(socket_desk);
+
         request.clear_all();
         req_str.clear();
     }

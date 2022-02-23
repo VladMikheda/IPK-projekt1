@@ -1,3 +1,12 @@
+/**
+ * Project: Vytvoření serveru komunikujícího prostřednictvím protokolu HTTP
+ *
+ * File:     error.h
+ * Subject:  IPK 2022
+ *
+ * @author:  Vladislav Mikheda  xmikhe00
+ */
+
 #ifndef IPK_PROJ1CPP_ERROR_H
 #define IPK_PROJ1CPP_ERROR_H
 

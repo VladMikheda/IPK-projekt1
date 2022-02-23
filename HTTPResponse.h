@@ -1,3 +1,12 @@
+/**
+ * Project: Vytvoření serveru komunikujícího prostřednictvím protokolu HTTP
+ *
+ * File:     HTTPResponse.h
+ * Subject:  IPK 2022
+ *
+ * @author:  Vladislav Mikheda  xmikhe00
+ */
+
 #ifndef IPK_PROJ1CPP_HTTPRESPONSE_H
 #define IPK_PROJ1CPP_HTTPRESPONSE_H
 #include <iostream>
