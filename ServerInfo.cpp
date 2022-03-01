@@ -79,7 +79,7 @@ string ServerInfo::get_cpu_name(){
     ifstream in("/proc/cpuinfo");
 
     while (getline(in,cpu_info)){
-        if(-1 != cpu_info.find("model name")){
+        if(string::npos != cpu_info.find("model name")){
             break;
         }
     }
@@ -92,7 +92,7 @@ string ServerInfo::get_cpu_name(){
 
  //return host name
  string ServerInfo::get_host_name(){
-     int max_len_hostname = 255;
+     const int max_len_hostname = 255;
      char hostname[max_len_hostname];
      gethostname(hostname,max_len_hostname);
      return (string) hostname;

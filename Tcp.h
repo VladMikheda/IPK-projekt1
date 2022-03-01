@@ -22,7 +22,7 @@ private:
     int server;
     int domian;
     int type;
-    struct sockaddr_in addr = {0};
+    struct sockaddr_in addr;
 
 public:
     void set_port(int value);
