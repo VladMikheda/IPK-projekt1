@@ -1,37 +1,37 @@
-#IPK proect
+#IPK project
 
 ## Popis
-Byl udelan podle zadani Http server poskytuje informace o zarizeni na krem bejzi: nazev, nazev proceru,
-zatez procesoru.
+Podle zadání byl udělán Http server který poskytuje informace o zařízení na krém bejzi: název, název proceru,
+zátěž procesoru.
 
-Projekt implementovan v jazyce C++ a byl vyzkusen objektno orentirovany pristup, 
+Projekt implementován v jazyce C++ a byl vyzkušen objektno orentirovany přístup,
 
-Server je spusten na zadanom porte a bezi v nekonecnem cyklu, a ceka na request a v zavislosti od zaprosa odpovi.
+Server je spuštěn na zadanom portě a běží v nekonečném cyklu, a čeká na request a v závislosti od zaprosa odpoví.
 
 
 
-## Preklad
-Pro preklad spustite make file prikazem:
+## Překlad
+Pro překlad spustíte make filé příkazem:
 ``
 make
 ``
-## Spusteni
+## Spuštění
 ```
-$ ./hinfosvc <port>
+$ ./hinfosvc 
 ```
-**Port** je nutnym argumentem a muze byt v rozhrani od 1 do 65535
+**Port** je nutným argumentem a může být v rozhraní od 1 do 65535
 
-## Vyuzite 
-Pro komunikace s serverom je mozne vyzit prohlížeč nebo konsolne aplikace pro zasylane Get zaprosu, napriklad 
-- wget 
+## Využité
+Pro komunikace s serverom je možné vyžít prohlížeč nebo konsolne aplikace pro zasylane Get zaprosu, například
+- wget
 - curl
 
 Server podporuje **GET** a **HEAD** zaprosy. Pro přijímání dat z serveru je nutno zaslat **GET** zapros na url adres.
 
-### Priklady vyziti
-Pro priklady bude vyzen nastroj curl, IP adresem je local host a port nastavlen na 12345
+### Příklady vyžití
+Pro příklady bude vyžeň nástroj curl, IP adresem je local host a port nastavlen na 12345
 
-#### Zyskani jmena serveru
+#### Zyskani jména serveru
 ```
 $ curl http://localhost:12345/hosname 
 ```
