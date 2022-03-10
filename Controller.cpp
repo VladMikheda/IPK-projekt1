@@ -14,7 +14,7 @@
  HTTPResponse Controller::page_hostname(HttpRequest& request, HTTPResponse& response){
     response.set_code("200");
     response.set_status("OK");
-    response.set_content_type("text/plain; charset=UTF-8");
+    response.set_content_type("text/plain; charset=utf-8");
     response.set_connection("Close");
 
     if(request.get_method() == "GET"){
@@ -27,7 +27,7 @@
  HTTPResponse Controller::page_cpuname(HttpRequest& request, HTTPResponse& response){
      response.set_code("200");
      response.set_status("OK");
-     response.set_content_type("text/plain; charset=UTF-8");
+     response.set_content_type("text/plain; charset=utf-8");
      response.set_connection("Close");
 
      if(request.get_method() == "GET"){
@@ -40,7 +40,7 @@
  HTTPResponse Controller::page_load(HttpRequest& request, HTTPResponse& response){
      response.set_code("200");
      response.set_status("OK");
-     response.set_content_type("text/plain; charset=UTF-8");
+     response.set_content_type("text/plain; charset=utf-8");
      response.set_connection("Close");
 
      if(request.get_method() == "GET"){
@@ -107,6 +107,9 @@ HTTPResponse Controller::conflict(HTTPResponse& response){
  HTTPResponse Controller::selection(HttpRequest request){
     HTTPResponse response;
 
+    if(request.get_error_request()){
+        return method_not_valid(response);
+    }
     if(request.get_protocol() != "HTTP" && request.get_protocol() != "HTTPS"){
         return conflict(response);
     }
@@ -135,10 +138,12 @@ HTTPResponse Controller::conflict(HTTPResponse& response){
     else if(request.get_url() == "/favicon.ico"){
         return not_content(response);
     }
-    else if(request.get_url() == "/load")
-        return page_load(request,response);
-    else
+    else if(request.get_url() == "/load"){
+        return page_load(request, response);
+    }
+    else{
         return page_notfound(response);
+    }
 
 }
 

@@ -16,6 +16,7 @@
  *      protocol
  */
  void HttpRequest::set_all(string req){
+     error_request = false;
      req_mess = req;
 
      string part;
@@ -34,7 +35,14 @@
      method = line.substr(0,pos_first_sub);
      url = line.substr(pos_first_sub + 1, len_to_sec_sub);
      protocol = line.substr(pos_sec_sub + 1, len_to_sec_slash);
+     if(protocol != "HTTP"){
+         error_request = true;
+     }
      protocol_version = line.substr(pos_sec_slash + 1, pos_first_lb);
+
+     if(!(protocol_version == "1.1\r" || protocol_version == "1.0\r" || protocol_version == "0.9\r" || protocol_version == "2\r")){
+         error_request = true;
+     }
 }
  string HttpRequest::get_method(){
     return method;
@@ -48,6 +56,10 @@
  string HttpRequest::get_protocol_version(){
     return protocol_version;
 }
+
+bool HttpRequest::get_error_request() const{
+    return error_request;
+ }
 void HttpRequest::clear_all(){
      req_mess.clear();
      method.clear();

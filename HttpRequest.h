@@ -23,6 +23,7 @@ private:
     string protocol;
     string protocol_version;
     string url;
+    bool error_request;
 
 
 public:
@@ -30,6 +31,7 @@ public:
     string get_url();
     string get_protocol();
     string get_protocol_version();
+    bool get_error_request() const;
     void set_all(string req);
     void clear_all();
 };

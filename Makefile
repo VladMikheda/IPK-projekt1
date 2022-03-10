@@ -1,19 +1,19 @@
 
 
-PROJECT=IPK2021
+PROJECT=IPK2022
 
 CC = g++
 CFLAGS= -Wall -Wextra -pedantic
 FILES=$(wildcard *.cpp)
 
-all: IPK2021
+all: IPK2022
 
 
-IPK2021:
+IPK2022:
 	$(CC) $(CFLAGS) $(FILES) -o hinfosvc
 
 test:
-	./hinfosvc test.txt
+	./hinfosvc 12345
 
 clean:
 	rm -f hinfosvc

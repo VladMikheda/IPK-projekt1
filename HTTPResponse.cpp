@@ -27,7 +27,7 @@
 }
 
  void HTTPResponse::set_content_type(const string& content_type_str){
-    headers[content_type].append("Content_type:");
+    headers[content_type].append("Content-Type:");
     headers[content_type].append(" ");
     headers[content_type].append(content_type_str);
     headers[content_type].append("\r\n");
@@ -42,9 +42,9 @@
 /** set response body and automatically set content length */
  void HTTPResponse::set_body(const string& body_str){
     body = body_str;
-    headers[content_length].append("Content_length:");
+    headers[content_length].append("Content-Length:");
     headers[content_length].append(" ");
-    headers[content_length].append(to_string(body_str.size()));
+    headers[content_length].append(to_string(body_str.size() + 2));
     headers[content_length].append("\r\n");
 }
 
